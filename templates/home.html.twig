@@ -1,2 +1,21 @@
-<h1>Coucou</h1>
-<p>je suis une paragraphe</p>
+{% extends 'base.html.twig' %}
+
+{% block title %}symrecip-accueil{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+
+<div class="jumbotron">
+  <h1 class="display-4">Bienvenue sur SymRecip!</h1>
+  <p class="lead">SymRecip est une application de  creation des recette .lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</p>
+  <hr class="my-4">
+  <p>pour commencer . render vous sur la page d inscription pour utiliser lapplication</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="#" role="button">inscription</a>
+  </p>
+</div>
+
+</div>
+
+
+ {% endblock %}
