@@ -80,8 +80,8 @@ class IngredientController extends AbstractController
      */
 #[Route('ingredient/edition/{id}',name:'ingredient.edit',methods:['GET','POST'])]
 
-    public function edit(IngredientRepository $repository, int $id):Response{
-        $ingredient =  $repository->findOneBy(['id'=> $id]);
+    public function edit(Ingredient $ingredient):Response{
+       
         $form= $this->createForm(IngredientType::class,$ingredient);
        
         return $this->render('pages/ingredient/edit.html.twig',[
