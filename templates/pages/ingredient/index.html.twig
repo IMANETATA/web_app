@@ -27,6 +27,8 @@ Il y a {{ ingredients.getTotalItemCount }} ingredients au total
       <th>nom</th>
       <th>prix</th>
       <th>date de creation</th>
+      <th>edition</th>
+      <th>suppression</th>
     </tr>
   </thead>
   <tbody>
@@ -37,6 +39,12 @@ Il y a {{ ingredients.getTotalItemCount }} ingredients au total
       <td>{{ingredient.price}}</td>
       <td>{{ingredient.createdat|date("d/m/Y") }}
      </td>
+    <td>
+    <a href=" {{ path('ingredient.edit', {id: ingredient.id}) }}" class="btn btn-info">edit</a>
+    </td>
+   <td>
+    <a href=" {{ path('ingredient.delete', {id: ingredient.id}) }}" class="btn btn-danger">supprimer</a>
+    </td>
     </tr>
     {% endfor %}
   </tbody>
