@@ -5,11 +5,12 @@ namespace App\Entity;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\DateImmutableType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeImmutableToDateTimeTransformer;
 
 #[UniqueEntity('name')]
 #[ORM\HasLifecycleCallbacks]
@@ -22,7 +23,10 @@ class Recipe
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    #[Assert\Length( min:2,max:50 )]
+    #[Assert\Length(
+        min:2,
+        max:50
+    )]
     #[Assert\NotBlank()]
     private ?string $name = null;
 
@@ -61,24 +65,20 @@ class Recipe
     #[Assert\NotNull()]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToMany(targetEntity: ingredient::class)]
+    #[ORM\ManyToMany(targetEntity: Ingredient::class)]
     private Collection $ingredients;
 
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
-        $this->createdAt = new \DateTimeImmutable();
-        $this->updatedAt= new \DateTimeImmutable();
+        $this->createdAt= new \DateTimeImmutable();
+        $this->updatedAt=new \DateTimeImmutable();
     }
-            
-            #[ORM\PrePersist]
-            public function setUpdatedAtValue(): void
-            {
-                $this->updatedAt= new \DateTimeImmutable();
-            }
-
-
-
+   
+    #[ORM\PrePersist]
+    public function setUpdatedAtValue(){
+        $this->updatedAt=new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -194,14 +194,14 @@ class Recipe
     }
 
     /**
-     * @return Collection<int, ingredient>
+     * @return Collection<int, Ingredient>
      */
     public function getIngredients(): Collection
     {
         return $this->ingredients;
     }
 
-    public function addIngredient(ingredient $ingredient): self
+    public function addIngredient(Ingredient $ingredient): self
     {
         if (!$this->ingredients->contains($ingredient)) {
             $this->ingredients->add($ingredient);
@@ -210,7 +210,7 @@ class Recipe
         return $this;
     }
 
-    public function removeIngredient(ingredient $ingredient): self
+    public function removeIngredient(Ingredient $ingredient): self
     {
         $this->ingredients->removeElement($ingredient);
 

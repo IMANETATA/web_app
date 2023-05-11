@@ -2,17 +2,17 @@
 
 namespace App\Controller;
 
+//use App\Controller\Task;
+use App\Entity\Ingredient;
+use App\Form\IngredientType;
 use App\Repository\IngredientRepository;
+use Doctrine\ORM\EntityManagerInterface;
+//use App\Entity\Ingredient;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\Task;
-use App\Entity\Ingredient;
-use App\Form\IngredientType;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class IngredientController extends AbstractController
 {
@@ -30,13 +30,13 @@ class IngredientController extends AbstractController
 
     public function index(IngredientRepository $repository,PaginatorInterface $paginator,Request $request): Response
     {
-        $ingredients=$paginator->paginate(
+        $Ingredients=$paginator->paginate(
             $repository->findAll(),
             $request->query->getInt('page',1),
             10
         );
         return $this->render('pages/ingredient/index.html.twig', [
-            'ingredients'=>$ingredients
+            'ingredients'=>$Ingredients
         ]);
     }
     /**
