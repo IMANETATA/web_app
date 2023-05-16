@@ -8,6 +8,7 @@ use App\Repository\RecipeRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,6 +25,7 @@ class RecipeController extends AbstractController
      *  @return Reponse
      */
     #[Route('/recette', name: 'recipe.index')]
+    #[IsGranted('ROLE_USER')]
     public function index(RecipeRepository $repository,PaginatorInterface $paginator,Request $request): Response
     {
         $recipes=$paginator->paginate(

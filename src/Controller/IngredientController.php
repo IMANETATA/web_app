@@ -9,6 +9,7 @@ use App\Repository\IngredientRepository;
 use Doctrine\ORM\EntityManagerInterface;
 //use App\Entity\Ingredient;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -80,6 +81,9 @@ class IngredientController extends AbstractController
      *  @param Request $request
      *  @return Reponse
      */
+
+
+     #[Security("is_granted('ROLE_USER')and user===ingredient.getUser()")]
 #[Route('ingredient/edition/{id}',name:'ingredient.edit',methods:['GET','POST'])]
 
     public function edit(Ingredient $ingredient,Request $request,EntityManagerInterface $manager):Response{
