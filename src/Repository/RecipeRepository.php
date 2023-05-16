@@ -6,6 +6,8 @@ use App\Entity\Recipe;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+use function PHPUnit\Framework\returnSelf;
+
 /**
  * @extends ServiceEntityRepository<Recipe>
  *
@@ -20,7 +22,20 @@ class RecipeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Recipe::class);
     }
-
+//this method permet de trouver les public recipe based sur le  nombre de recipes
+     public function findPublicRecipe(?int $nbRecipes):array
+    {
+       $queryBuilder= $this->createQueryBuilder('r')
+        ->where('r.isPublic=1')
+        ->orderBy('r.createdAt','DESC');
+        
+        if($nbRecipes !==0 || $nbRecipes !==null){
+            $queryBuilder->setMaxResults($nbRecipes);
+        }
+       return $queryBuilder ->getQuery()
+        ->getResult()
+        ;
+    }
     public function save(Recipe $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

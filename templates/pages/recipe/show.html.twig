@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+SymRecipe - {{recipe.name}}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+<h1 class="mt-4">
+{{recipe.name}}
+</h1>
+<span class="badge rounded-pill bg-primary"><small>cree le : {{recipe.createdAt|date('d/m/Y') }}</small></span>
+<div class="container mt-4">
+{% if recipe.time %}
+<p>temps en minutes: {{recipe.time}} </p>
+{% else %}
+<p>Temps non rensiegné</p>
+{% endif %}
+
+
+{% if recipe.nbPeople %}
+<p>pour: {{recipe.nbPeople}} personnes</p>
+{% else %}
+<p>nombre de personne non renseigné</p>
+{% endif %}
+
+
+{% if recipe.nbPeople %}
+<p>difficulté: {{recipe.difficulty}} /5 </p>
+{% else %}
+<p>difficulté non renseigné</p>
+{% endif %}
+
+
+{% if recipe.price %}
+<p>Prix en $: {{recipe.price}} </p>
+{% else %}
+<p>Prix non renseigné</p>
+{% endif %}
+
+<p>description: {{recipe.description}} </p>
+
+<p>ingredients:</p>
+{% for ingredient in recipe.ingredients %}
+   
+   <span class="badge bg-primary mt-1"> {{ingredient.name}} </span>
+{% endfor %}
+
+</div>
+
+</div>
+{% endblock %}

@@ -15,5 +15,20 @@
   </p>
 </div>
 
+<div class="recipes">
+<h2 class="mt-4">recette de la communaute</h2>
+<div class="d-flex justify-content-between flex-wrap">
+{% for recipe in recipes %}
+    <div class="card border-primary mb-3" style="max-width: 20rem;">
+  <div class="card-header">Recette nº:{{recipe.id}}</div>
+  <div class="card-body">
+    <h4 class="card-title">{{recipe.name}}</h4>
+    <p class="card-text">{{ recipe.description | slice(0,500) ~ '...'  }}</p>
+  </div>
 </div>
+{% endfor %}
+</div>
+</div>
+
+
 {% endblock %}

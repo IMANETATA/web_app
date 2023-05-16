@@ -28,10 +28,10 @@ class RecipeType extends AbstractType
 {
     //recuperer current user
     private $token;
-    public function __construct(TokenStorageInterface $token)
+    /*public function __construct(TokenStorageInterface $token)
     {
         $this->token=$token;
-    }
+    }*/
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -141,9 +141,9 @@ class RecipeType extends AbstractType
                 'multiple'=>true,
                 'query_builder'=> function(IngredientRepository $r){
                     return $r->createQueryBuilder('i')
-                    ->where('i.user=:user')
-                    ->orderBy('i.name','ASC')
-                    ->setParameter('user',$this->token->getToken()->getUser());
+                    //->where('i.user=:user')
+                    ->orderBy('i.name','ASC');
+                  //  ->setParameter('user',$this->token->getToken()->getUser());
                 },
                 'expanded'=>true,
                 'label'=>'les  ingredients',

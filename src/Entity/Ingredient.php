@@ -42,10 +42,10 @@ class Ingredient
 public function getUser():?User{
     return $this->user;
 }
-public function setUser():?User{
+/*public function setUser():?User{
      $this->user=$user;
     return $this;
-}
+}*/
     public function getId(): ?int
     {
         return $this->id;

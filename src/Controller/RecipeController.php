@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,6 +36,30 @@ class RecipeController extends AbstractController
         );
         return $this->render('pages/recipe/index.html.twig', [
             'recipes' => $recipes
+        ]);
+    }
+
+
+    //
+    #[Route('/recipe/public',name:'recipe.index.public',methods:['GET'])]
+     public function indexPublic(PaginatorInterface $paginator,RecipeRepository $repository,Request $request):Response{
+
+        $recipes=$paginator->paginate($repository->findPublicRecipe(null),
+        $request->query->getInt('page',1),
+        10
+    );
+
+        return $this->render('pages/recipe/indexPublic.html.twig',[
+            'recipes'=>$recipes
+        ]);
+     }
+   
+//voir la recette si elle est publique
+    //#[Security("is_granted('ROLE_USER')and recipe.isPublic === true")]
+    #[Route('/recipe/{id}',name:'recipe.show',methods:['GET'])]
+    public function show(Recipe $recipe): Response{
+        return $this-> render('pages/recipe/show.html.twig',[
+            'recipe'=>$recipe
         ]);
     }
 
