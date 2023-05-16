@@ -78,6 +78,7 @@ class Recipe
     #[ORM\OneToMany(mappedBy: 'recipe', targetEntity: Mark::class, orphanRemoval: true)]
     private Collection $marks;
 
+    private ?float $avg=null;
    
 
     public function __construct()
@@ -283,6 +284,25 @@ class Recipe
 
         return $this;
     }
-
     
+    /**
+     * Get the value of avg
+     */ 
+    public function getAvg()
+    {
+        $marks= $this->marks;
+        if($marks->toArray()===[]){
+            $this->avg=null;
+
+            return $this->avg;
+        }
+        $total=0;
+        foreach($marks as $mark){
+            $total+= $mark->getMark();
+        }
+        $this->avg=$total/count($marks);
+        return $this->avg;
+    }
+
+   
 }

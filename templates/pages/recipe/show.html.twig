@@ -6,11 +6,18 @@ SymRecipe - {{recipe.name}}
 
 {% block body %}
 <div class="container">
-<h1 class="mt-4">
-{{recipe.name}}
-</h1>
+<h1 class="mt-4">{{recipe.name}}</h1>
+ {%  for message in app.flashes('success') %}
+        <div class="alert alert-success mt-4">
+            {{ message }}
+        </div>
+    {% endfor %}
+<p>la moyenne de cette recette est de: {{recipe.avg }} /5 </p>
+
 <span class="badge rounded-pill bg-primary"><small>cree le : {{recipe.createdAt|date('d/m/Y') }}</small></span>
 <div class="container mt-4">
+
+
 {% if recipe.time %}
 <p>temps en minutes: {{recipe.time}} </p>
 {% else %}
@@ -46,6 +53,10 @@ SymRecipe - {{recipe.name}}
    <span class="badge bg-primary mt-1"> {{ingredient.name}} </span>
 {% endfor %}
 
+</div>
+
+<div class="mark">
+{{form(form)}}
 </div>
 
 </div>
