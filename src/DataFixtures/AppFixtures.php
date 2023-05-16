@@ -17,15 +17,31 @@ class AppFixtures extends Fixture
     
     public function load(ObjectManager $manager): void
     {
+        
+        //users
+        $users=[];
+
+        for ($i=0;$i<10;$i++){
+            $user=new User();
+            $user->setFullNmae('name')
+            ->setPseudo(mt_rand(0,1)=== 1 ? 'pseudo': null )
+            ->setEmail('email'.$i.'@symrecip.fr')
+            ->setRoles(['ROLE_USER'])
+            ->setPlainPassword('password');
+            $users[]=$user;
+            $manager->persist($user);
+        }
+
         //ingredients
         $ingredients=[];
         for($i=0;$i<50;$i++){
             $ingredient= new Ingredient();
-            $ingredient->setName("clavier")
+            $ingredient->setName("fraise".$i)
             ->setPrice(mt_rand(0,100));
+          //  ->setUser($users[mt_rand(0,count($users)-1)]);
 
             $ingredients[]=$ingredient;
-            $manager->persist($ingredient);
+           $manager->persist($ingredient);
         }
 
         //recipes
@@ -37,24 +53,17 @@ class AppFixtures extends Fixture
             ->setNbPeople(mt_rand(0,1)==1? mt_rand(1,50):null)
             ->setDifficulty(mt_rand(0,1)==1? mt_rand(1,5):null)
             ->setDescription("description ..")
-            ->setIsFavorite(mt_rand(0,1)==1? true:false);
+            ->setIsFavorite(mt_rand(0,1)==1? true:false)
+            ->setUser($users[mt_rand(0,count($users)-1)]);
             for ($k=0;$k<mt_rand(5,15);$k++){
                 $recipe->addIngredient($ingredients[mt_rand(0 , count($ingredients)-1)]);
             }
+
+            
         $manager->persist($recipe);
     }
 
 
- //users
-        for ($i=0;$i<10;$i++){
-            $user=new User();
-            $user->setFullNmae('name')
-            ->setPseudo(mt_rand(0,1)=== 1 ? 'pseudo': null )
-            ->setEmail('email'.$i.'@symrecip.fr')
-            ->setRoles(['ROLE_USER'])
-            ->setPlainPassword('password');
-            $manager->persist($user);
-        }
         $manager->flush();
     } 
 }

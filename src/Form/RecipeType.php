@@ -4,9 +4,11 @@ namespace App\Form;
 
 use App\Entity\Recipe;
 use App\Entity\Ingredient;
-use App\Repository\IngredientRepository;
 use Faker\Provider\ar_EG\Text;
+use App\Repository\IngredientRepository;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\AbstractType;
+//use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,9 +21,17 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 
 class RecipeType extends AbstractType
 {
+    //recuperer current user
+    private $token;
+    public function __construct(TokenStorageInterface $token)
+    {
+        $this->token=$token;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -131,7 +141,9 @@ class RecipeType extends AbstractType
                 'multiple'=>true,
                 'query_builder'=> function(IngredientRepository $r){
                     return $r->createQueryBuilder('i')
-                    ->orderBy('i.name','ASC');
+                    ->where('i.user=:user')
+                    ->orderBy('i.name','ASC')
+                    ->setParameter('user',$this->token->getToken()->getUser());
                 },
                 'expanded'=>true,
                 'label'=>'les  ingredients',

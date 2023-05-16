@@ -36,6 +36,8 @@ class Ingredient
     #[Assert\NotNull()]
     private ?\DateTimeImmutable $createdAt = null;
 
+  
+
     public function getId(): ?int
     {
         return $this->id;
@@ -84,4 +86,6 @@ class Ingredient
     {
         return $this->name;
     }
+
+  
 }
